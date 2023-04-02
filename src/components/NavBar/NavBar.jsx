@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, IconButton, Toolbar, Drawer, Button, Avatar, useMediaQuery } from '@mui/material';
+import { AppBar, IconButton, Toolbar, Button, Avatar, useMediaQuery } from '@mui/material';
 import { Menu, AccountCircle, Brightness4, Brightness7 } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
@@ -43,7 +43,7 @@ const NavBar = () => {
               onClick={() => {}}
             >
               {!isMobile && <>My Movies &nbsp;</>}
-              <Avatar alt="Profile" src="/static/images/avatar/1.jpg" />
+              <Avatar sx={{ width: '20px', height: '20px' }} alt="Profile" src="../../../public/static/1.jpg" />
             </Button>
           )}
         </div>
