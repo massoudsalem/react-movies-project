@@ -4,9 +4,9 @@ export default makeStyles(() => ({
   root: {
     display: 'flex',
     height: '100%',
+    marginTop: '80px',
   },
   toolbar: {
-    marginTop: '80px',
     height: '70px',
   },
   content: {
