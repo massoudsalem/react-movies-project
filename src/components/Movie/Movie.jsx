@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import useStyles from './styles';
 
 const Movie = ({ movie, i }) => {
-  //console.log(movie, i);
   const classes = useStyles();
   return (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} className={classes.movie}>
@@ -13,7 +12,7 @@ const Movie = ({ movie, i }) => {
           <Box className={classes.colBox}>
             <Tooltip disableTouchListener title={movie.release_date}>
               <Typography variant="h7" className={classes.movieYear}>
-                {movie.release_date?.split('-')[0]}
+                {movie.release_date?.split('-')[0] || 'N/A'}
               </Typography>
             </Tooltip>
             <Tooltip disableTouchListener title={movie.overview}>

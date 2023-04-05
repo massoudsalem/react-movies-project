@@ -1,12 +1,13 @@
-import React, { useCallback, useState } from 'react';
-import { Box, CircularProgress, useMediaQuery, Typography, LinearProgress } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import { useGetMoviesQuery } from '../../services/TMDB';
 import MovieList from '../MovieList/MovieList';
 
 const Movies = () => {
-  const { data, error, isFetching } = useGetMoviesQuery();
+  const { selectedGenre, page, searchTerm } = useSelector((state) => state.genre);
+  const { data, error, isFetching } = useGetMoviesQuery({ selectedGenre, page, searchTerm });
 
   if (isFetching) {
     return (
@@ -37,7 +38,6 @@ const Movies = () => {
       </Box>
     );
   }
-  console.log(data);
   return (
     <div>
       <MovieList movies={data} />

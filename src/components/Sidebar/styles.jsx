@@ -17,5 +17,10 @@ export default makeStyles((theme) => ({
     filter: theme.palette.mode === 'dark' ? 'brightness(0) invert(1)' : 'none',
     height: '30px',
   },
+  colBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
 
 }));
