@@ -7,3 +7,5 @@ export { default as Sidebar } from './Sidebar/Sidebar';
 export { default as MovieList } from './MovieList/MovieList';
 export { default as Movie } from './Movie/Movie';
 export { default as SearchBar } from './SearchBar/SearchBar';
+export { default as ProfileMenu } from './ProfileMenu/ProfileMenu';
+export { default as Toast } from './Toast/Toast';
