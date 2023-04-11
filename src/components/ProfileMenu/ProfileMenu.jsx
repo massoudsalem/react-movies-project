@@ -1,5 +1,5 @@
 import { AccountCircle, Logout } from '@mui/icons-material';
-import { Avatar, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useStyles from './styles';
@@ -28,14 +28,14 @@ const ProfileMenu = ({ user, isMobile }) => {
             className={classes.linkButton}
           >
             {user.name}
-            <Avatar className={classes.avatar} alt="Profile" src="../../../static/1.jpg" />
+            <AccountCircle className={classes.avatar} />
           </Button>
         ) : (
           <IconButton
             onClick={handleClick}
             className={classes.linkButton}
           >
-            <Avatar className={classes.avatar} alt="Profile" src="../../../static/1.jpg" />
+            <AccountCircle className={classes.avatar} />
           </IconButton>
         )}
       </Tooltip>

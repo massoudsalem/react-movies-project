@@ -39,7 +39,6 @@ const NavBar = () => {
           dispatch(setUserData(userData));
         }
       }
-      console.log('user', user);
     };
     logInUser();
   }, [token]);
@@ -66,7 +65,7 @@ const NavBar = () => {
           <div>
             {!isAuthenticated ? (
               <Button color="inherit" onClick={fetchToken}>
-                Login &nbsp; <AccountCircle />
+                {!isMobile && 'Login' }&nbsp; <AccountCircle />
               </Button>
             ) : (
               <ProfileMenu user={user} isMobile={isMobile} />

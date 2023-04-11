@@ -1,10 +1,10 @@
 import { makeStyles } from '@mui/styles';
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 const fixSm = 601;
 export default makeStyles((theme) => ({
   toolbar: {
-    height: '80px',
+    height: '70px',
     display: 'flex',
     justifyContent: 'space-between',
     marginLeft: '240px',

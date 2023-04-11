@@ -17,7 +17,7 @@ const Movies = () => {
     );
   }
 
-  if (!data.results.length) {
+  if (!data?.results?.length) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" mt="20px">
         <Typography variant="h4">
@@ -39,9 +39,9 @@ const Movies = () => {
     );
   }
   return (
-    <div>
+    <Box sx={{ display: 'flex', justifyContent: 'center', margin: '0 auto' }}>
       <MovieList movies={data} />
-    </div>
+    </Box>
   );
 };
 
