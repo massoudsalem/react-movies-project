@@ -3,17 +3,21 @@ import { makeStyles } from '@mui/styles';
 export default makeStyles((theme) => ({
   movie: {
     padding: '0px !important',
+    width: '100%',
   },
   link: {
+    textDecoration: 'none',
+    '&:hover': {
+      cursor: 'pointer',
+    },
+  },
+  movieCard: {
     alignItems: 'center',
     fontWeight: 'bolder',
     textDecoration: 'none',
     [theme.breakpoints.up('xs')]: {
       display: 'flex',
       flexDirection: 'column',
-    },
-    '&:hover': {
-      cursor: 'pointer',
     },
   },
   movieImage: {

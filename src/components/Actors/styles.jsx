@@ -26,7 +26,6 @@ export default makeStyles((theme) => ({
     justifyContent: 'start',
     alignItems: 'center',
     flexWrap: 'wrap',
-    margin: '0 0 !important',
     [theme.breakpoints.down('sm')]: {
       alignItems: 'center !important',
       flexDirection: 'column',
@@ -35,11 +34,11 @@ export default makeStyles((theme) => ({
   },
   buttonsContainer: {
     display: 'flex',
-    justifyContent: 'space-around',
-    width: '100%',
+    justifyContent: 'center',
+    width: '50%',
     alignItems: 'center',
     flexWrap: 'wrap',
-    marginTop: '20px',
+    marginTop: '10px',
   },
   posterContainer: {
     [theme.breakpoints.up('lg')]: {
@@ -83,87 +82,5 @@ export default makeStyles((theme) => ({
       margin: '0 auto !important',
       width: '100%',
     },
-  },
-  genresContainer: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    margin: '10px 0 !important',
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-  },
-  genreImage: {
-    filter: theme.palette.mode === 'dark' && 'invert(1)',
-    marginRight: '10px',
-  },
-  Links: {
-    textDecoration: 'none',
-    //color: 'inherit',
-    display: 'flex',
-    alignItems: 'center',
-    margin: '10px 5px',
-  },
-  companyLogo: {
-    width: '100%',
-    maxWidth: '7em',
-    margin: '10px',
-  },
-  castImage: {
-    width: '100%',
-    maxWidth: '7em',
-    outFit: 'cover',
-    borderRadius: '5px',
-    margin: '3px',
-  },
-  castGrid: {
-    display: 'flex',
-    maxWidth: '135px',
-    alignItems: 'center',
-    flexDirection: 'column',
-  },
-  btnIcon: {
-    [theme.breakpoints.down('sm')]: {
-      margin: '0 auto',
-    },
-  },
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-
-  },
-  video: {
-    width: '50%',
-    height: '50%',
-    [theme.breakpoints.down('sm')]: {
-      width: '95%',
-      height: '50%',
-    },
-  },
-  noVideo: {
-    backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '50%',
-    height: '50%',
-    [theme.breakpoints.down('sm')]: {
-      width: '95%',
-      height: '50%',
-    },
-  },
-  title: {
-    fontWeight: 'bold',
-    marginBottom: '10px',
-  },
-  tagline: {
-    fontStyle: 'italic',
-    marginBottom: '10px',
-  },
-  overview: {
-    marginBottom: '10px',
   },
 }));
