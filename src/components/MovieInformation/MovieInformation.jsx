@@ -24,18 +24,14 @@ const MovieInformation = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const tmdbApiKey = import.meta.env.VITE_TMDB_API_KEY;
-
+  const loggedIn = !localStorage.getItem('session_id');
   const isMobile = useMediaQuery('(max-width: 385px)');
   const [openTrailer, setOpenTrailer] = useState(false);
 
   //if movie is in favorites or watchlist, set state to true
   useEffect(() => {
-    if (favoriteMovies?.results.find((movie) => movie?.id === data?.id)) {
-      setIsMovieFavorited(true);
-    }
-    if (watchlistedMovies?.results.find((movie) => movie?.id === data?.id)) {
-      setIsMovieWatchlisted(true);
-    }
+    setIsMovieFavorited(!!favoriteMovies?.results.find((movie) => movie?.id === data?.id));
+    setIsMovieWatchlisted(!!watchlistedMovies?.results.find((movie) => movie?.id === data?.id));
   }, [favoriteMovies, watchlistedMovies, data]);
 
   if (isFetching) {
@@ -194,12 +190,12 @@ const MovieInformation = () => {
               <Box>
                 <ButtonGroup sx={{ marginBottom: '1em 0' }} size="small" variant="outlined" color="primary" aria-label="contained primary button group">
                   <Tooltip disableHoverListener={!isMobile} title={(isMovieFavorited ? 'Unfavorite' : 'Favorite')}>
-                    <Button classes={{ startIcon: classes.btnIcon }} onClick={addToFavorites} startIcon={isMovieFavorited ? <FavoriteBorderOutlined /> : <Favorite />}>
+                    <Button disabled={loggedIn} classes={{ startIcon: classes.btnIcon }} onClick={addToFavorites} startIcon={isMovieFavorited ? <FavoriteBorderOutlined /> : <Favorite />}>
                       {!isMobile && (isMovieFavorited ? 'Unfavorite' : 'Favorite')}
                     </Button>
                   </Tooltip>
                   <Tooltip disableHoverListener={!isMobile} title="Watch list">
-                    <Button classes={{ startIcon: classes.btnIcon }} onClick={addToWatchList} startIcon={isMovieWatchlisted ? <Remove /> : <PlusOne />}>
+                    <Button disabled={loggedIn} classes={{ startIcon: classes.btnIcon }} onClick={addToWatchList} startIcon={isMovieWatchlisted ? <Remove /> : <PlusOne />}>
                       {!isMobile && 'Watch list'}
                     </Button>
                   </Tooltip>
