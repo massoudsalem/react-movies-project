@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { AppBar, IconButton, Toolbar, Drawer, Button, useMediaQuery } from '@mui/material';
+import React, { useEffect, useState, useContext } from 'react';
+import { AppBar, IconButton, Toolbar, Drawer, Button, useMediaQuery, Switch } from '@mui/material';
 import { Menu, AccountCircle, Brightness4, Brightness7 } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import useStyles from './styles';
 import { Sidebar, SearchBar, ProfileMenu } from '..';
 import { fetchSessionID, fetchToken, moviesApi } from '../../utils';
 import { setUserData } from '../../features/auth';
+import { ColorModeContext } from '../../utils/ToggleColorMode';
 
 const NavBar = () => {
   const classes = useStyles();
@@ -15,7 +16,7 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-
+  const { toggleColorMode } = useContext(ColorModeContext);
   const token = localStorage.getItem('request_token');
   const session_id_ls = localStorage.getItem('session_id');
 
@@ -58,9 +59,7 @@ const NavBar = () => {
             <Menu />
           </IconButton>
           )}
-          <IconButton sx={{ ml: 1 }} color="inherit" aria-label="menu" onClick={() => {}}>
-            {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
-          </IconButton>
+          <Switch className={classes.colorModeSwitch} checked={theme.palette.mode === 'dark'} onClick={toggleColorMode} />
           {!isMobile && <SearchBar />}
           <div>
             {!isAuthenticated ? (

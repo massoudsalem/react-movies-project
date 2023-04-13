@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import useStyles from './styles';
-import { useGetMovieQuery, useGetRecommendationsQuery } from '../../services/TMDB';
+import { useGetListQuery, useGetMovieQuery, useGetRecommendationsQuery } from '../../services/TMDB';
 import { MovieList } from '../index';
 import { selectGenre } from '../../features/genre';
 import genreIcons from '../../assets/genres';
@@ -14,13 +14,30 @@ import genreIcons from '../../assets/genres';
 const MovieInformation = () => {
   const classes = useStyles();
   const { id } = useParams();
+  const [isMovieFavorited, setIsMovieFavorited] = useState(false);
+  const [isMovieWatchlisted, setIsMovieWatchlisted] = useState(false);
+  const { user } = useSelector((state) => state.auth);
   const { data, error, isFetching } = useGetMovieQuery({ id });
   const { data: recommendations, isFetching: isFetchingRecommendations, isError: errorRecommendations } = useGetRecommendationsQuery({ movie_id: id, list: '/recommendations' });
+  const { data: favoriteMovies } = useGetListQuery({ listName: 'favorite/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page: 1 });
+  const { data: watchlistedMovies } = useGetListQuery({ listName: 'watchlist/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page: 1 });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const tmdbApiKey = import.meta.env.VITE_TMDB_API_KEY;
 
   const isMobile = useMediaQuery('(max-width: 385px)');
   const [openTrailer, setOpenTrailer] = useState(false);
+
+  //if movie is in favorites or watchlist, set state to true
+  useEffect(() => {
+    if (favoriteMovies?.results.find((movie) => movie?.id === data?.id)) {
+      setIsMovieFavorited(true);
+    }
+    if (watchlistedMovies?.results.find((movie) => movie?.id === data?.id)) {
+      setIsMovieWatchlisted(true);
+    }
+  }, [favoriteMovies, watchlistedMovies, data]);
+
   if (isFetching) {
     return (
       <Box display="flex" justifyContent="center">
@@ -37,17 +54,27 @@ const MovieInformation = () => {
       </Box>
     );
   }
-  const addToFavorites = () => {
 
+  const addToFavorites = async () => {
+    await axios.post(`https://api.themoviedb.org/3/account/${user.id}/favorite?api_key=${tmdbApiKey}&session_id=${localStorage.getItem('session_id')}`, {
+      media_type: 'movie',
+      media_id: id,
+      favorite: !isMovieFavorited,
+    });
+
+    setIsMovieFavorited((prev) => !prev);
   };
 
-  const addToWatchList = () => {
+  const addToWatchList = async () => {
+    await axios.post(`https://api.themoviedb.org/3/account/${user.id}/watchlist?api_key=${tmdbApiKey}&session_id=${localStorage.getItem('session_id')}`, {
+      media_type: 'movie',
+      media_id: id,
+      watchlist: !isMovieWatchlisted,
+    });
 
+    setIsMovieWatchlisted((prev) => !prev);
   };
 
-  const isMovieFavorited = true;
-  const isMovieWatchlisted = true;
-  console.log(data.videos);
   return (
     <>
       <Grid container className={classes.containerSpaceAround}>
@@ -109,12 +136,13 @@ const MovieInformation = () => {
               {data?.production_companies.length > 0 ? (data?.production_companies.map((company) => (
                 company.logo_path ? (
                   <img
+                    key={company?.id}
                     src={`https://image.tmdb.org/t/p/w500${company?.logo_path}`}
                     alt={company?.name}
                     className={classes.companyLogo}
                   />
                 ) : (
-                  <Typography variant="overline" className={classes.companyName} gutterBottom sx={{ marginRight: '10px' }}>
+                  <Typography key={company?.id} variant="overline" className={classes.companyName} gutterBottom sx={{ marginRight: '10px' }}>
                     {company?.name}
                   </Typography>
                 )))) : (
@@ -159,7 +187,7 @@ const MovieInformation = () => {
                     <Button classes={{ startIcon: classes.btnIcon }} target="_blank" href={`https://www.imdb.com/title/${data?.imdb_id}`} startIcon={<MovieIcon />}>{!isMobile && 'IMDB'}</Button>
                   </Tooltip>
                   <Tooltip disableHoverListener={!isMobile} title="Trailer">
-                    <Button classes={{ startIcon: classes.btnIcon }} onClick={() => { setOpenTrailer(true); }} startIcon={<Theaters />}>{!isMobile && 'Trailer'}</Button>
+                    <Button classes={{ startIcon: classes.btnIcon }} href="#" onClick={() => { setOpenTrailer(true); }} startIcon={<Theaters />}>{!isMobile && 'Trailer'}</Button>
                   </Tooltip>
                 </ButtonGroup>
               </Box>

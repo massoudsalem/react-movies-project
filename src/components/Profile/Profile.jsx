@@ -1,6 +1,9 @@
 import { ExitToApp } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useGetListQuery } from '../../services/TMDB';
+import MovieList from '../MovieList/MovieList';
 
 const logout = () => {
   localStorage.clear();
@@ -8,20 +11,39 @@ const logout = () => {
 };
 
 const Profile = () => {
-  const favoriteMovies = [];
+  const { user } = useSelector((state) => state.auth);
+  const { data: favoriteMovies, refetch: refetchFavorites } = useGetListQuery({ listName: 'favorite/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page: 1 });
+  const { data: watchlistedMovies, refetch: refetchWatchlisted } = useGetListQuery({ listName: 'watchlist/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page: 1 });
+
+  useEffect(() => {
+    refetchFavorites();
+    refetchWatchlisted();
+  }, []);
+
   return (
     <Box>
       <Box display="flex" justifyContent="space-between">
-        <Typography variant="h4" gutterBottom>My Profile</Typography>
+        <Typography variant="h4" gutterBottom>{`${user.name}'s Profile`}</Typography>
         <Button color="inherit" onClick={logout}>
           Logout &nbsp; <ExitToApp />
         </Button>
       </Box>
-      {!favoriteMovies.length
+      {!favoriteMovies?.results?.length && !watchlistedMovies?.results?.length
         ? <Typography variant="h5">Add favorite or watch list same movies to see them here!</Typography>
         : (
           <Box>
-            favoriteMovies
+            {(favoriteMovies?.results?.length > 0) && (
+              <Box>
+                <Typography variant="h5" gutterBottom>Favorites</Typography>
+                <MovieList movies={favoriteMovies} />
+              </Box>
+            )}
+            {(watchlistedMovies?.results?.length > 0) && (
+              <Box>
+                <Typography variant="h5" gutterBottom>Watchlisted</Typography>
+                <MovieList movies={watchlistedMovies} />
+              </Box>
+            )}
           </Box>
         )}
     </Box>
