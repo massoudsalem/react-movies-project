@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, Typography } from '@mui/material';
 import useStyles from './styles';
 import { Actors, MovieInformation, Movies, NavBar, Profile, Toast } from '.';
 
@@ -18,6 +18,7 @@ const App = () => {
           <Route path="/movie/:id" element={<MovieInformation />} />
           <Route path="/actors/:id" element={<Actors />} />
           <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/category/:category" element={<Movies />} />
           <Route
             path="/approved"
             element={(
@@ -25,7 +26,7 @@ const App = () => {
                 <Toast msg="Login Successful!" />
                 <Movies />
               </>
-                )}
+            )}
           />
           <Route
             path="/logout"
@@ -34,7 +35,7 @@ const App = () => {
                 <Toast msg="Logout Successful!" />
                 <Movies />
               </>
-                )}
+            )}
           />
         </Routes>
       </main>

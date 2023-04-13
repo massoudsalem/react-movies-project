@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
 import { TextField, InputAdornment, Box } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import useStyles from './styles';
-import { searchMovie } from '../../features/genre';
 
 const SearchBar = () => {
   const classes = useStyles();
-  const [searchTerm, setSearchTerm] = useState('');
-  const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search'));
   const navigate = useNavigate();
   const handleSearch = (e) => {
     if (searchTerm.trim() === '') return;
     if (e.key === 'Enter') {
-      navigate('/');
-      dispatch(searchMovie(searchTerm));
+      navigate(`/?search=${searchTerm}`);
     }
   };
   return (

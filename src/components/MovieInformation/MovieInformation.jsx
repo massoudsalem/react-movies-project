@@ -109,7 +109,7 @@ const MovieInformation = () => {
             </Grid>
             <Grid item className={classes.genresContainer}>
               {data?.genres.map((genre) => (
-                <Link className={classes.Links} to="/" key={genre.id} onClick={() => { dispatch(selectGenre(genre.id)); }}>
+                <Link className={classes.Links} to={`/category/${genre.name}`} key={genre.id} onClick={() => { dispatch(selectGenre(genre.id)); }}>
                   <img src={genreIcons[genre.name.toLowerCase()]} className={classes.genreImage} height={30} />
                   <Typography color="textPrimary" variant="subtitle1">{genre?.name}</Typography>
                 </Link>
