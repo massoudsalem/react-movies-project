@@ -8,15 +8,13 @@ import useStyles from './styles';
 import { useGetGenresQuery } from '../../services/TMDB';
 import genresIcon from '../../assets/genres';
 import { selectGenre } from '../../features/genre';
+import { blueLogo, redLogo } from '../../assets/images';
 
 const categories = [
   { label: 'Popular', value: 'popular' },
   { label: 'Top Rated', value: 'top_rated' },
   { label: 'Upcoming', value: 'upcoming' },
 ];
-
-const redLogo = 'src/assets/images/red_logo.png';
-const blueLogo = 'src/assets/images/blue_logo.png';
 
 const Sidebar = ({ setMobileOpen }) => {
   const theme = useTheme();
@@ -35,7 +33,7 @@ const Sidebar = ({ setMobileOpen }) => {
         <img
           className={classes.image}
           src={theme.palette.mode !== 'light' ? redLogo : blueLogo}
-          alt="Filmpire Logo"
+          alt="MovieDB"
         />
       </Link>
       <Divider />
