@@ -1,5 +1,5 @@
-import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import { Box, Card, CardContent, CardMedia, MobileStepper, Typography, IconButton } from '@mui/material';
+// import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import { Box, Card, CardContent, CardMedia, MobileStepper, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -24,6 +24,7 @@ const Slider = ({ interval = 2500, movies, slides }) => {
       <Card className={classes.sliderCard}>
         {/*{children[activeStep]}*/}
         <CardMedia
+          key={movie?.backdrop_path}
           className={classes.sliderImage}
           image={`https://image.tmdb.org/t/p/original${movie?.backdrop_path}`}
           alt={movie?.title}
@@ -32,6 +33,7 @@ const Slider = ({ interval = 2500, movies, slides }) => {
         />
         <CardContent
           className={classes.sliderContent}
+          key={`${movie?.backdrop_path}content`}
         >
           <Typography gutterBottom variant="h5" component="div">
             {movie?.title}
@@ -49,7 +51,7 @@ const Slider = ({ interval = 2500, movies, slides }) => {
           nextButton={<span />}
           backButton={<span />}
         />
-        <IconButton
+        {/* <IconButton
           color="primary"
           disabled={false}
           size="large"
@@ -70,7 +72,7 @@ const Slider = ({ interval = 2500, movies, slides }) => {
           onClick={() => setActiveStep((prevActiveStep) => (prevActiveStep > 0 ? prevActiveStep - 1 : slides - 1))}
         >
           <ArrowBack />
-        </IconButton>
+        </IconButton> */}
       </Card>
     </Box>
   );

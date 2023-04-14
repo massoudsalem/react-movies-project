@@ -1,6 +1,38 @@
 import { makeStyles } from '@mui/styles';
 
 export default makeStyles((theme) => ({
+  '@keyframes in': {
+    '0%': {
+      opacity: 0,
+      transform: 'translateX(-200%)',
+    },
+    '50%': {
+      opacity: 0.5,
+      transform: 'translateX(0)',
+    },
+    '75%': {
+      opacity: 0.5,
+      transform: 'translateX(0)',
+    },
+    '100%': {
+      opacity: 0,
+      transform: 'translateX(200%)',
+    },
+  },
+  '@keyframes glow': {
+    '0%': {
+      opacity: 0,
+    },
+    '50%': {
+      opacity: 1,
+    },
+    '75%': {
+      opacity: 1,
+    },
+    '100%': {
+      opacity: 0,
+    },
+  },
   sliderContainer: {
     width: '100%',
     height: '490px',
@@ -18,6 +50,7 @@ export default makeStyles((theme) => ({
     backgroundColor: 'black',
   },
   sliderImage: {
+    animation: `$in 3000ms ${theme.transitions.easing.easeInOut}`,
     left: '0',
     top: '0',
     width: '100%',
@@ -26,8 +59,9 @@ export default makeStyles((theme) => ({
     opacity: '0.5',
   },
   sliderContent: {
+    animation: `$glow 3000ms ${theme.transitions.easing.easeInOut}`,
     position: 'absolute',
-    bottom: '0',
+    bottom: '20px',
     left: '0',
     right: '0',
     color: 'white',
@@ -52,5 +86,14 @@ export default makeStyles((theme) => ({
     bottom: '0',
     marginTop: '10px',
     backgroundColor: 'transparent',
+    '& .MuiMobileStepper-dot': {
+      width: '15px',
+      height: '15px',
+      backgroundColor: theme.palette.primary.contrastText,
+      opacity: '0.7',
+    },
+    '& .MuiMobileStepper-dotActive': {
+      backgroundColor: theme.palette.primary.main,
+    },
   },
 }));
