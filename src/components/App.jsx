@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { CssBaseline, Typography } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 import useStyles from './styles';
-import { Actors, MovieInformation, Movies, NavBar, Profile, Toast } from '.';
+import { Actors, MovieInformation, Movies, NavBar, Profile, Slider, Toast } from '.';
 
 const App = () => {
   const classes = useStyles();
@@ -14,7 +14,8 @@ const App = () => {
         <CssBaseline />
         <Routes>
           <Route path="/" element={<Movies />} />
-          <Route path="/search/:q" element={<Movies />} />
+          <Route path="/search/" element={<Movies />} />
+          <Route path="/slider" element={<Slider />} />
           <Route path="/movie/:id" element={<MovieInformation />} />
           <Route path="/actors/:id" element={<Actors />} />
           <Route path="/profile/:id" element={<Profile />} />

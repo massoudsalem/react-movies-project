@@ -8,12 +8,12 @@ import useStyles from './styles';
 const SearchBar = () => {
   const classes = useStyles();
   const [searchParams] = useSearchParams();
-  const [searchTerm, setSearchTerm] = useState(searchParams.get('search'));
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
   const navigate = useNavigate();
   const handleSearch = (e) => {
     if (searchTerm.trim() === '') return;
     if (e.key === 'Enter') {
-      navigate(`/?search=${searchTerm}`);
+      navigate(`/search?q=${searchTerm}`);
     }
   };
   return (

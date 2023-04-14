@@ -190,19 +190,25 @@ const MovieInformation = () => {
               <Box>
                 <ButtonGroup sx={{ marginBottom: '1em 0' }} size="small" variant="outlined" color="primary" aria-label="contained primary button group">
                   <Tooltip disableHoverListener={!isMobile} title={(isMovieFavorited ? 'Unfavorite' : 'Favorite')}>
-                    <Button disabled={loggedIn} classes={{ startIcon: classes.btnIcon }} onClick={addToFavorites} startIcon={isMovieFavorited ? <FavoriteBorderOutlined /> : <Favorite />}>
-                      {!isMobile && (isMovieFavorited ? 'Unfavorite' : 'Favorite')}
-                    </Button>
+                    <span>
+                      <Button disabled={loggedIn} classes={{ startIcon: classes.btnIcon }} onClick={addToFavorites} startIcon={isMovieFavorited ? <FavoriteBorderOutlined /> : <Favorite />}>
+                        {!isMobile && (isMovieFavorited ? 'Unfavorite' : 'Favorite')}
+                      </Button>
+                    </span>
                   </Tooltip>
                   <Tooltip disableHoverListener={!isMobile} title="Watch list">
-                    <Button disabled={loggedIn} classes={{ startIcon: classes.btnIcon }} onClick={addToWatchList} startIcon={isMovieWatchlisted ? <Remove /> : <PlusOne />}>
-                      {!isMobile && 'Watch list'}
-                    </Button>
+                    <span>
+                      <Button disabled={loggedIn} classes={{ startIcon: classes.btnIcon }} onClick={addToWatchList} startIcon={isMovieWatchlisted ? <Remove /> : <PlusOne />}>
+                        {!isMobile && 'Watch list'}
+                      </Button>
+                    </span>
                   </Tooltip>
                   <Tooltip disableHoverListener={!isMobile} title="Back">
+
                     <Button classes={{ startIcon: classes.btnIcon }} startIcon={<ArrowBack />} onClick={() => { navigate(-1); }}>
                       {!isMobile && 'Back'}
                     </Button>
+
                   </Tooltip>
                 </ButtonGroup>
               </Box>

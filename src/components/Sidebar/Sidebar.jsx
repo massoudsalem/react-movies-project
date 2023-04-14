@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Divider, List, ListItem, ListItemText, ListSubheader, ListItemIcon, Box, CircularProgress } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/styles';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -15,21 +15,26 @@ const categories = [
   { label: 'Upcoming', value: 'upcoming' },
 ];
 
-const redLogo = 'https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png';
-const blueLogo = 'https://fontmeme.com/permalink/210930/6854ae5c7f76597cf8680e48a2c8a50a.png';
+const redLogo = 'src/assets/images/red_logo.png';
+const blueLogo = 'src/assets/images/blue_logo.png';
 
-const Sidebar = () => {
+const Sidebar = ({ setMobileOpen }) => {
   const theme = useTheme();
   const classes = useStyles();
   const { data, isLoading, error } = useGetGenresQuery();
   const dispatch = useDispatch();
   const selectedGenre = useSelector((state) => state.genre.selectedGenre);
+  const currentLocation = useLocation();
+  const category = currentLocation.pathname.includes('category');
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [currentLocation]);
   return (
     <>
-      <Link to="/" className={classes.imageLink}>
+      <Link to="/" className={classes.imageLink} onClick={() => { dispatch(selectGenre('popular')); }}>
         <img
           className={classes.image}
-          src={theme.palette.mode === 'light' ? redLogo : blueLogo}
+          src={theme.palette.mode !== 'light' ? redLogo : blueLogo}
           alt="Filmpire Logo"
         />
       </Link>
@@ -37,8 +42,8 @@ const Sidebar = () => {
       <List>
         <ListSubheader>Categories</ListSubheader>
         {categories.map(({ value, label }) => (
-          <Link key={value} to="/" className={classes.link}>
-            <ListItem button disabled={selectedGenre === value} onClick={() => { dispatch(selectGenre(value)); }}>
+          <Link key={value} to={`/category/${label}`} className={classes.link}>
+            <ListItem button disabled={selectedGenre === value && (category)} onClick={() => { dispatch(selectGenre(value)); }}>
               <ListItemIcon>
                 <img src={genresIcon[label.toLowerCase()]} alt={label} className={classes.genreImages} />
               </ListItemIcon>
@@ -64,8 +69,8 @@ const Sidebar = () => {
             );
           }
           return data.genres.map(({ id, name }) => (
-            <Link key={id} to="/" className={classes.link}>
-              <ListItem button disabled={selectedGenre === id} onClick={() => { dispatch(selectGenre(id)); }}>
+            <Link key={id} to={`/category/${name}`} className={classes.link}>
+              <ListItem button disabled={selectedGenre === id && (category)} onClick={() => { dispatch(selectGenre(id)); }}>
                 <ListItemIcon>
                   <img src={genresIcon[name.toLowerCase()]} alt={name} className={classes.genreImages} />
                 </ListItemIcon>

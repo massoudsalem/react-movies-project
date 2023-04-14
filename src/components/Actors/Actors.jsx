@@ -30,7 +30,6 @@ const Actors = () => {
       </Box>
     );
   }
-  console.log(data);
   return (
     <>
       <Grid container className={classes.containerSpaceAround}>
@@ -73,7 +72,7 @@ const Actors = () => {
       </Grid>
       <Box marginTop="5rem" width="100%">
         <Typography variant="h3" gutterBottom align="center">
-          Similar Movies
+          Known for
         </Typography>
         {(() => {
           if (isFetchingActorMovies) {

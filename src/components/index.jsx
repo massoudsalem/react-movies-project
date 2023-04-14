@@ -10,3 +10,4 @@ export { default as SearchBar } from './SearchBar/SearchBar';
 export { default as ProfileMenu } from './ProfileMenu/ProfileMenu';
 export { default as Toast } from './Toast/Toast';
 export { default as Pagination } from './Pagination/Pagination';
+export { default as Slider } from './Slider/Slider';

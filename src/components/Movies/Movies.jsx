@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Box, CircularProgress, Typography, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 
-import { useParams, useSearchParams } from 'react-router-dom';
+import { Slider, Pagination, MovieList } from '..';
 import { useGetMoviesQuery } from '../../services/TMDB';
-import MovieList from '../MovieList/MovieList';
-import Pagination from '../Pagination/Pagination';
 import { searchMovie } from '../../features/genre';
 
 const Movies = () => {
@@ -17,10 +16,12 @@ const Movies = () => {
   const { category } = useParams();
   const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
+  const currentLocation = useLocation();
+  const homepage = currentLocation.pathname === '/';
 
   useEffect(() => {
-    if (searchParams.get('search')) {
-      dispatch(searchMovie(searchParams.get('search')));
+    if (searchParams.get('q') && currentLocation.pathname === '/search') {
+      dispatch(searchMovie(searchParams.get('q')));
     }
   }, [searchParams]);
 
@@ -56,10 +57,11 @@ const Movies = () => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', margin: '0 auto', flexDirection: 'column', alignItems: 'center' }}>
       {category && (
-      <Typography variant="h3" align="center" sx={{ margin: '1em 0' }}>
-        {category}
-      </Typography>
+        <Typography variant="h3" align="center" sx={{ margin: '1em 0' }}>
+          {category}
+        </Typography>
       )}
+      {homepage && <Slider movies={data} slides={6} />}
       <MovieList movies={data} numberOfMovies={numberOfMovies} />
       <Pagination page={page} setPage={setPage} totalPages={data?.total_pages} />
     </Box>
