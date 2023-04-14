@@ -1,23 +1,34 @@
-// import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import { Box, Card, CardContent, CardMedia, MobileStepper, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import { Box, Card, CardContent, CardMedia, IconButton, MobileStepper, Typography } from '@mui/material';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import useStyles from './styles';
 
 const Slider = ({ interval = 2500, movies, slides }) => {
+  const timerRef = useRef();
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [movie, setMovie] = useState(movies.results[0]);
+
+  const handleNext = useCallback(() => {
+    setActiveStep((prevActiveStep) => (prevActiveStep < (slides - 1) ? prevActiveStep + 1 : 0));
+  }, [activeStep]);
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => (prevActiveStep > 0 ? prevActiveStep - 1 : slides - 1));
+  };
+
   useEffect(() => {
     setMovie(movies.results[activeStep]);
   }, [activeStep]);
+
   useEffect(() => {
-    const action = setInterval(() => {
-      setActiveStep((prevActiveStep) => (prevActiveStep < (slides - 1) ? prevActiveStep + 1 : 0));
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      handleNext();
     }, interval);
-    return () => clearInterval(action);
-  }, []);
+    return () => clearInterval(timerRef.current);
+  }, [handleNext]);
 
   return (
     <Box className={classes.sliderContainer}>
@@ -35,7 +46,7 @@ const Slider = ({ interval = 2500, movies, slides }) => {
           className={classes.sliderContent}
           key={`${movie?.backdrop_path}content`}
         >
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h4" component="div">
             {movie?.title}
           </Typography>
           <Typography variant="body2">
@@ -51,14 +62,19 @@ const Slider = ({ interval = 2500, movies, slides }) => {
           nextButton={<span />}
           backButton={<span />}
         />
-        {/* <IconButton
+        <IconButton
           color="primary"
           disabled={false}
           size="large"
           className={classes.sliderButton}
           variant="outlined"
-          sx={{ top: '50%', right: '2%' }}
-          onClick={() => setActiveStep((prevActiveStep) => (prevActiveStep < (slides - 1) ? prevActiveStep + 1 : 0))}
+          sx={(theme) => ({
+            right: '2%',
+            [theme.breakpoints.down('sm')]: {
+              right: '0',
+            },
+          })}
+          onClick={handleNext}
         >
           <ArrowForward />
         </IconButton>
@@ -68,11 +84,16 @@ const Slider = ({ interval = 2500, movies, slides }) => {
           size="large"
           className={classes.sliderButton}
           variant="outlined"
-          sx={{ top: '50%', left: '2%' }}
-          onClick={() => setActiveStep((prevActiveStep) => (prevActiveStep > 0 ? prevActiveStep - 1 : slides - 1))}
+          sx={(theme) => ({
+            left: '2%',
+            [theme.breakpoints.down('sm')]: {
+              left: '0',
+            },
+          })}
+          onClick={handleBack}
         >
           <ArrowBack />
-        </IconButton> */}
+        </IconButton>
       </Card>
     </Box>
   );

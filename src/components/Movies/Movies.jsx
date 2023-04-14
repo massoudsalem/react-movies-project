@@ -4,8 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 
 import { Slider, Pagination, MovieList } from '..';
-import { useGetMoviesQuery } from '../../services/TMDB';
-import { searchMovie } from '../../features/genre';
+import { useGetGenresQuery, useGetMoviesQuery } from '../../services/TMDB';
+import { searchMovie, selectGenre } from '../../features/genre';
+
+const categories = [
+  { label: 'Popular', value: 'popular' },
+  { label: 'Top Rated', value: 'top_rated' },
+  { label: 'Upcoming', value: 'upcoming' },
+];
 
 const Movies = () => {
   const [page, setPage] = useState(1);
@@ -18,12 +24,27 @@ const Movies = () => {
   const dispatch = useDispatch();
   const currentLocation = useLocation();
   const homepage = currentLocation.pathname === '/';
+  const genres = useGetGenresQuery();
 
   useEffect(() => {
     if (searchParams.get('q') && currentLocation.pathname === '/search') {
       dispatch(searchMovie(searchParams.get('q')));
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    if (genres.data) {
+      const genre = genres.data.genres.find((g) => g.name === category);
+      if (genre) {
+        dispatch(selectGenre(genre.id));
+      } else if (category) {
+        const categoryValue = categories.find((c) => c.label === category);
+        if (categoryValue) {
+          dispatch(selectGenre(categoryValue.value));
+        }
+      }
+    }
+  }, [category, genres.data]);
 
   if (isFetching) {
     return (

@@ -1,22 +1,16 @@
+import { alpha } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 export default makeStyles((theme) => ({
-  '@keyframes in': {
+  '@keyframes fadeInAndOut': {
     '0%': {
       opacity: 0,
-      transform: 'translateX(-200%)',
     },
     '50%': {
       opacity: 0.5,
-      transform: 'translateX(0)',
-    },
-    '75%': {
-      opacity: 0.5,
-      transform: 'translateX(0)',
     },
     '100%': {
       opacity: 0,
-      transform: 'translateX(200%)',
     },
   },
   '@keyframes glow': {
@@ -25,9 +19,9 @@ export default makeStyles((theme) => ({
     },
     '50%': {
       opacity: 1,
-    },
-    '75%': {
-      opacity: 1,
+      '.MuiTypography-root': {
+        border: `1px solid ${theme.palette.primary.contrastText}`,
+      },
     },
     '100%': {
       opacity: 0,
@@ -50,7 +44,7 @@ export default makeStyles((theme) => ({
     backgroundColor: 'black',
   },
   sliderImage: {
-    animation: `$in 3000ms ${theme.transitions.easing.easeInOut}`,
+    animation: `$fadeInAndOut 3000ms ${theme.transitions.easing.easeInOut}`,
     left: '0',
     top: '0',
     width: '100%',
@@ -61,23 +55,38 @@ export default makeStyles((theme) => ({
   sliderContent: {
     animation: `$glow 3000ms ${theme.transitions.easing.easeInOut}`,
     position: 'absolute',
-    bottom: '20px',
+    bottom: '30px',
     left: '0',
     right: '0',
     color: 'white',
+    [theme.breakpoints.down('lg')]: {
+      padding: '0 16%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '0 64px',
+    },
   },
   sliderButton: {
     position: 'absolute',
     transform: 'translateY(-50%)',
     zIndex: '1',
     borderRadius: '50%',
+    top: '50%',
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     borderColor: theme.palette.primary.contrastText,
+    [theme.breakpoints.down('sm')]: {
+      borderRadius: '0',
+      backgroundColor: alpha(theme.palette.primary.main, 0.1),
+      height: '100%',
+    },
     '&:hover': {
       backgroundColor: theme.palette.primary.dark,
       color: theme.palette.primary.contrastText,
       borderColor: theme.palette.primary.contrastText,
+      [theme.breakpoints.down('sm')]: {
+        backgroundColor: alpha(theme.palette.primary.dark, 0.4),
+      },
       opacity: '0.95',
     },
   },
